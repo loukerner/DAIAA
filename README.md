@@ -42,18 +42,10 @@ It focuses on a core requirement for agentic AI systems: compliance evidence sho
 16. Appendix E — Global Jurisdiction Map
 17. Appendix F — Role Inventory and Reader Map
 
-## Suggested repository structure
-
-```
-/
-├─ README.md
-├─ LICENSE.md
-└─ docs/
-   └─ 2026-agent-compliance-implementation-guide.md
 ```
 
 ## License
 
-This work is intended to be open source documentation. Recommended license: Creative Commons Attribution 4.0 International, or CC BY 4.0.
+This work is intended to be open source documentation.
 
 See the license page for reuse rights, attribution requirements, and warranty disclaimer.
