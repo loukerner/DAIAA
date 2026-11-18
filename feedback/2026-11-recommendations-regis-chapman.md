@@ -1,7 +1,5 @@
 # Recommendations for the DAIAA Agent Compliance and Implementation Guide
 
-**Not a Contribution.** This file is review feedback. It is marked "Not a Contribution" under Section 1 of this repository's Apache License 2.0.
-
 **Disclosure.** I'm Regis Chapman (Polymathie.xyz). I build the Dimensional Frame Harness, a runtime harness that reads an agent's whole run. I also write the open standards in the Integrity Suite, which I am adapting to agent settings. I'm a member of DAIAA. Nothing below depends on adopting any of it. I'm reading the guide at commit 2af450e.
 
 ## Summary
