@@ -8,7 +8,7 @@ This repository holds the alliance's open work product: reference documentation,
 
 | Project | What it is | Status |
 | --- | --- | --- |
-| **[Agent Compliance & Implementation Guide](docs/)** | Maps agentic AI governance obligations — EU AI Act, DORA, ISO 42001, ISO 27001, SOC 2, privacy and sector rules — to eight evidence control areas, plus a reference architecture for verifiable agent governance. | Published · open for review |
+| **[Agent Compliance & Implementation Guide](docs/)** | Maps agentic AI governance obligations — EU AI Act, DORA, ISO 42001, ISO 27001, SOC 2, privacy and sector rules — to nine evidence control areas, plus a reference architecture for verifiable agent governance. | Published · open for review |
 | **[AAIP — Autonomous Agent Improvement Proposals](standards/)** | The alliance's standards-proposal track. Narrow, ratifiable proposals on how agent systems produce, carry, and verify evidence. | Process in draft · AAIP-001 and AAIP-002 reserved |
 
 ## Working groups

@@ -3,7 +3,6 @@
 *A practical reference for regulatory compliance, security implementation, audit assurance, and legal strategy in autonomous AI systems.*
 
 > **Warning:** This guide is a structured compliance and technical reference, not legal advice. Where this document conflicts with primary legislation, official regulatory guidance, or binding standards, those primary sources control.
-> 
 
 # 1. Executive Summary
 
@@ -11,9 +10,9 @@ Autonomous AI agents create a compliance problem that traditional governance fra
 
 Existing regulations and standards already require many of the right outcomes: logging, monitoring, risk classification, access control, human oversight, incident response, and protection of records. The unresolved question is whether the evidence produced by an autonomous system can be checked by a relying party without trusting the system operator that produced it.
 
-This guide maps agentic AI obligations to eight evidence control areas and explains how organizations can move from documented controls to operational and independently verifiable controls. It is written for compliance officers, CISOs, developers, auditors, legal teams, and strategic advisors preparing for EU AI Act, DORA, ISO 42001, ISO 27001, SOC 2, privacy, and sector-specific obligations.
+This guide maps agentic AI obligations to nine evidence control areas and explains how organizations can move from documented controls to operational and independently verifiable controls. It is written for compliance officers, CISOs, developers, auditors, legal teams, and strategic advisors preparing for EU AI Act, DORA, ISO 42001, ISO 27001, SOC 2, privacy, and sector-specific obligations.
 
-Zero-Knowledge Boundary Compliance (ZKBC) is presented as one implementation architecture for producing privacy-preserving, verifiable evidence. The broader requirement is technology-neutral: agentic AI systems should produce evidence that is tamper-evident, policy-bound, and independently replayable.
+Zero-Knowledge Boundary Compliance (zkBC) is OpenMatter's standard, published through Hashgraph Online (HOL), and is presented here as one implementation profile for producing privacy-preserving, verifiable evidence. It is not a DAIAA standard. The broader governance approach is technology-neutral: agentic AI systems should produce evidence that is tamper-evident, policy-bound, and independently checkable.
 
 ## The core problem
 
@@ -32,7 +31,6 @@ For ordinary systems, this may be acceptable. For autonomous systems acting at m
 The target state is verifiable governance:
 
 > Evidence should be generated automatically, bound to the policy in force at the time, protected against alteration, and independently checkable by a party other than the one whose conduct is being assessed.
-> 
 
 ## The practical goal
 
@@ -68,7 +66,7 @@ This document is intended for four primary user categories. Each group reads the
 **How they use this guide**
 
 - Map EU AI Act, DORA, ISO 42001, ISO 27001, SOC 2, and privacy obligations to practical control areas.
-- Build internal AI governance programs around the eight control areas.
+- Build internal AI governance programs around the nine control areas.
 - Use the maturity model to move from paper compliance to operational evidence.
 - Prepare board-level reporting on agentic AI risk.
 - Understand cross-border compliance where privacy, financial resilience, AI governance, and operational security overlap.
@@ -79,7 +77,7 @@ This document is intended for four primary user categories. Each group reads the
 - Section 4 — The Compliance Problem
 - Section 5 — Regulatory and Audit Obligation Map
 - Section 6 — Evidence Maturity Model
-- Section 7 — The Eight Control Areas
+- Section 7 — The Nine Control Areas
 - Appendix A — Authoritative Sources
 - Appendix B — EU AI Act Timeline
 - Appendix F — Role Inventory and Reader Map
@@ -102,14 +100,14 @@ This document is intended for four primary user categories. Each group reads the
 **How they use this guide**
 
 - Translate governance requirements into enforcement points, logs, receipts, schemas, and verification flows.
-- Understand how ZKBC, MPC, threshold cryptography, attestation, signed receipts, and transparency mechanisms can support evidence generation.
+- Understand how zkBC, MPC, threshold cryptography, attestation, signed receipts, and transparency mechanisms can support evidence generation.
 - Identify what is standardized and what is still implementation-specific.
 - Design systems that bind actions to identity, delegation scope, policy version, and evidence artifacts.
 - Prepare technical evidence that auditors and customers can actually evaluate.
 
 **Most relevant sections**
 
-- Section 7 — The Eight Control Areas
+- Section 7 — The Nine Control Areas
 - Section 8 — Reference Architecture
 - Section 9 — Implementation Checklist
 - Appendix C — Technical Standards and Cryptography Background
@@ -143,7 +141,7 @@ This document is intended for four primary user categories. Each group reads the
 
 - Section 4 — The Compliance Problem
 - Section 6 — Evidence Maturity Model
-- Section 7 — The Eight Control Areas
+- Section 7 — The Nine Control Areas
 - Section 9 — Implementation Checklist
 - Section 10 — Standards Proposals
 - Appendix A — Authoritative Sources
@@ -199,9 +197,13 @@ This document is intended for four primary user categories. Each group reads the
 | **Reference value** | The expected measurement, policy, configuration, or baseline against which evidence is checked. |
 | **Policy version binding** | Recording which policy authorized an action at the time it occurred. |
 | **Delegation scope** | The authority, limits, and conditions that travel when one agent, service, or user delegates work to another. |
-| **Independent replayability** | The ability for another party to re-check a result without trusting the original producer. |
+| **Independent replayability** | The ability for another party to re-check a result without trusting the original producer, within the evidence and assumptions made available. |
+| **Independent verifier** | A verifier with sufficient separation from the attester and relevant competence to evaluate the particular claim; both are assessed using disclosed relationships and supporting evidence, not assumed from a label. |
+| **Temporal integrity** | Assessing validity, freshness, revocation and intervention timing when evidence or reference values are used. |
+| **Trajectory evidence** | Evidence linking actions and relevant state transitions across a run so specified aggregate conditions can be checked. |
+| **Expected-evidence manifest** | A versioned declaration of records expected for each action class and the signals used to reconcile them. |
 | **Tamper-evidence** | The ability to detect alteration, rollback, truncation, or inconsistency in records. |
-| **ZKBC** | Zero-Knowledge Boundary Compliance: an implementation pattern using gateways, policy commitments, and cryptographic proofs to verify agent boundaries without exposing sensitive data. |
+| **zkBC** | Zero-Knowledge Boundary Compliance: OpenMatter's standard, published through HOL, using gateways, policy commitments, and cryptographic proofs to verify specified agent boundaries without exposing underlying sensitive data. It is not a DAIAA standard. |
 | **MPC** | Multi-party computation: a method for computing over inputs distributed across parties without each party revealing its raw input. |
 | **ZK proof** | A cryptographic proof that a statement is true without revealing the underlying private data. |
 | **Transparency log** | An append-only log that supports public or third-party consistency checking. |
@@ -243,11 +245,12 @@ Autonomous agents can:
 - Trigger financial, legal, operational, or security consequences.
 - Produce high-volume evidence that manual sampling cannot meaningfully cover.
 
-This creates three key gaps:
+This creates four key gaps:
 
 1. **Boundary gap** — Did the agent stay within authorized data, tool, purpose, and jurisdictional boundaries?
 2. **Delegation gap** — Did the original authority and scope survive across hops?
 3. **Verification gap** — Can a relying party check the evidence without trusting the system operator?
+4. **Coordination gap** — Can a sequence of individually authorized actions reach an inadmissible aggregate state?
 
 ## 4.3 The evidence principle
 
@@ -262,20 +265,18 @@ For agentic systems, a compliance record is stronger when it has these propertie
 | **Replayable** | Lets another party re-check the result. |
 | **Minimally revealing** | Protects sensitive data while preserving verifiability. |
 | **Independently verifiable** | Reduces reliance on the party whose conduct is being assessed. |
+| **Temporally valid** | Supports checks that evidence and reference values were fresh and valid when used, and that intervention could precede an irreversible consequence. |
+| **Trajectory-aware** | Supports checking relevant sequences and aggregate state, not just individual actions. |
 
 ## 4.4 What this means for you
 
 > **Governance & Compliance Architects:** Build programs around evidence properties, not only policy statements. Ask what proof each obligation produces.
-> 
 
 > **Technical Security Implementers:** Instrument enforcement points. Every tool call, retrieval, delegation, and policy decision should produce structured evidence.
-> 
 
 > **Audit & Assurance Professionals:** Test whether evidence can be checked independently. A dashboard showing “pass” is not the same as replayable evidence.
-> 
 
 > **Legal & Strategic Advisors:** Translate evidence properties into contracts, procurement requirements, audit rights, liability allocation, and dispute readiness.
-> 
 
 ---
 
@@ -316,16 +317,12 @@ That distinction matters for agentic AI. Internal log protection is necessary, b
 ## 5.3 What this means for you
 
 > **Governance & Compliance Architects:** Use this map to connect regulatory obligations to control areas, owners, and evidence requirements.
-> 
 
 > **Technical Security Implementers:** Turn each “evidence needed” entry into concrete logs, receipts, schemas, policy checks, and retention rules.
-> 
 
 > **Audit & Assurance Professionals:** Treat framework mapping as an audit planning input. Confirm the legal basis, then test whether evidence exists and is reliable.
-> 
 
 > **Legal & Strategic Advisors:** Use this table to identify where contracts, vendor obligations, audit rights, indemnities, and regulatory representations may be needed.
-> 
 
 ---
 
@@ -339,27 +336,27 @@ Agentic AI compliance should not be measured by a single pass/fail label. A cont
 | **Operational** | The control is enforced in the running system and produces evidence. | Logs, receipts, alerts, access records, approval records, policy decision records | Suitable for internal monitoring and ordinary audit. |
 | **Adversarial-ready** | The control has been exercised against attempts to defeat it and survived with evidence. | Red-team reports, containment tests, replay tests, tamper-evidence tests, incident drills | Appropriate for high-risk systems, critical infrastructure, and contested evidence environments. |
 
+**Independence cross-cut:** For this guide's adversarial-ready designation, an exercise must be gradable by a competent party outside the operator's control, using recorded evidence and explicit criteria. The operator may run the exercise, but self-grading alone does not establish independent assurance. Record relationships, competence, reviewer access, conflicts, and unresolved limitations. This is a proposed assurance criterion, not a universal legal or certification requirement.
+
+**Survived** means that, in the specified test environment and against the stated threat set, the control met recorded success criteria; failures, bypasses, coverage gaps, and unresolved exceptions are recorded and assessed by the grader. It does not mean the control is unbreakable.
+
 The overall maturity of an agentic AI governance system should be treated as the minimum maturity across its weakest relevant control area. A system that is adversarial-ready on access control but merely documented on shadow-AI discovery still has a specific, addressable weakness.
 
 ## What this means for you
 
 > **Governance & Compliance Architects:** Set target maturity by use case. Not every system needs adversarial-ready evidence, but high-risk systems should not rely on documented-only controls.
-> 
 
 > **Technical Security Implementers:** Design for operational and adversarial-ready evidence from the start. Retrofitting replayability and tamper-evidence is difficult.
-> 
 
 > **Audit & Assurance Professionals:** Report maturity per control area. A single overall pass hides which controls actually need remediation.
-> 
 
 > **Legal & Strategic Advisors:** Align contractual representations with maturity level. Do not let vendors describe documented controls as if they are independently verified controls.
-> 
 
 ---
 
-# 7. The Eight Control Areas
+# 7. The Nine Control Areas
 
-The eight control areas are the backbone of this guide. They are not new legal obligations. They are the evidence categories that existing obligations already imply for agentic systems.
+The nine control areas are the backbone of this guide. They are not new legal obligations. They are the evidence categories that existing obligations already imply for agentic systems.
 
 ## 7.1 Summary table
 
@@ -373,6 +370,7 @@ The eight control areas are the backbone of this guide. They are not new legal o
 | **06** | Identity and access control for AI | Know which identity acts, what authority it carries, and how delegation is constrained. |
 | **07** | Logging, telemetry and auditability | Know whether records exist and whether they can be independently re-derived. |
 | **08** | Incident, drift and escalation response | Know what happens when behavior changes, boundaries fail, or escalation is required. |
+| **09** | Aggregate and trajectory governance | Evaluate whether a sequence of individually authorized actions can reach an inadmissible aggregate state. |
 
 ---
 
@@ -649,11 +647,43 @@ Autonomous systems can fail through drift, tool misuse, prompt injection, delega
 
 ---
 
+## 7.10 Control Area 09 — Aggregate and Trajectory Governance
+
+**Purpose**
+
+Evaluate a run or coordinated set of actions against relevant aggregate constraints, including states that no individual action violates on its own.
+
+**Why it matters**
+
+Individually authorized actions can combine into an inadmissible outcome. Per-action checks alone need not detect that outcome before it occurs. For example, several permitted exports might cumulatively expose more data than the run is allowed to disclose.
+
+**Minimum evidence**
+
+- Run and correlation identifiers, participating actors and delegation links
+- Ordered actions, policy decisions and relevant observed state transitions
+- Versioned aggregate constraints, state model and evaluation scope
+- Trajectory evaluation results, violations, exceptions and final outcome
+- Detection, intervention and consequence timing where relevant
+
+**Implementation notes**
+
+- Evaluate reachable or observed aggregate states against explicit, use-case-specific constraints. A count or summary of permitted actions is not by itself a trajectory check.
+- Apply preventative gates or escalation before consequential commits where feasible. Link trajectory evidence to independently checkable action records and separately observed signals.
+- Record model boundaries, missing observations, ordering uncertainty and assumptions. A check covers only modeled states, available evidence and the stated threat set; it does not establish that every harmful trajectory is impossible.
+
+**Maturity examples**
+
+- **Documented:** Material aggregate constraints and run boundaries are specified.
+- **Operational:** Runs are correlated and evaluated against versioned constraints, with defined intervention paths.
+- **Adversarial-ready:** Defined coordination-failure scenarios are exercised, with outcomes independently gradable under Section 6.
+
+---
+
 # 8. Reference Architecture for Verifiable Agent Governance
 
-The architecture below is technology-neutral. ZKBC is one implementation profile for achieving the evidence properties described in this guide.
+The architecture below is technology-neutral. OpenMatter's zkBC, published through HOL, is one implementation profile for achieving some of the evidence properties described in this guide; its mention does not make it a DAIAA standard or imply that it satisfies every control.
 
-```
+```txt
 [ USER / ENTERPRISE APPLICATION ]
               │
               ▼
@@ -711,9 +741,11 @@ The architecture below is technology-neutral. ZKBC is one implementation profile
 | **Verifier** | Checks evidence against policy, reference values, and verification procedures. |
 | **Relying party** | Uses the verification result for compliance, procurement, audit, legal, or operational decisions. |
 
-## 8.2 ZKBC implementation profile
+## 8.2 zkBC implementation profile
 
-ZKBC can be used to implement this architecture by combining:
+**Attribution and scope:** zkBC is OpenMatter's standard, published through HOL—not a DAIAA standard. It is included as one possible implementation profile, not as an exclusive solution or an assertion of DAIAA endorsement. The [HOL working-group draft](https://github.com/hashgraph-online/cryptographic-agent-execution-wg/blob/feat/draft-spec/drafts/ZKBC-Zero-Knowledge-Boundary-Compliance.md) is a technical reference; confirm its current status before relying on it.
+
+A zkBC-based implementation may combine:
 
 - Complete mediation of agent I/O channels
 - Policy commitments
@@ -724,38 +756,43 @@ ZKBC can be used to implement this architecture by combining:
 - MPC-based computation where multiple parties contribute sensitive inputs
 - Recursive or cumulative receipts for high-volume activity
 
-The compliance goal is not “use zero-knowledge everywhere.” The goal is to produce evidence that is privacy-preserving, tamper-evident, policy-bound, and independently verifiable.
+The compliance goal is not “use zero-knowledge everywhere.” The goal is to produce evidence that is privacy-preserving, tamper-evident, policy-bound, and independently verifiable. The capabilities above are design options, not a claim that every zkBC deployment implements them or satisfies every obligation.
 
-## 8.3 What this means for you
+## 8.3 Cross-cutting evidence and timing controls
+
+- **Trajectory evaluation:** Correlate policy decisions, actions, delegation and relevant state transitions across a run. Check versioned aggregate constraints before an irreversible commit where feasible, and record the evaluation scope and missing observations.
+- **Temporal validity:** Record issuance time, validity window, freshness threshold, trusted time source, and revocation or supersession status for applicable attestations, reference values and policies. Define the response when evidence is stale or time cannot be trusted.
+- **Correction window:** Record or test when a breach becomes detectable, when intervention completes, and when the consequence becomes irreversible. A correction path is effective for the tested scenario only if it closes before the consequence, subject to measured timing and stated assumptions.
+- **Expected-evidence reconciliation:** Maintain a versioned manifest of required records per action class, with identifiers, generation points and timing expectations. Reconcile against separately controlled or independent signals, such as tool-side events or transaction records, and investigate missing or unexpected records. A manifest alone cannot detect an entirely unobserved action.
+- **Verifier assessment:** Record separation, competence and known common origins of evidence and reference-value chains. Unknown provenance remains unknown; a disclosure does not itself prove independence.
+
+## 8.4 What this means for you
 
 > **Governance & Compliance Architects:** Use the architecture to assign owners, policies, evidence requirements, and escalation responsibilities.
-> 
 
 > **Technical Security Implementers:** Build enforcement at the gateway and runtime layers. Avoid relying on model behavior alone as a control.
-> 
 
 > **Audit & Assurance Professionals:** Ask whether each architecture component produces evidence and whether that evidence can be replayed or independently verified.
-> 
 
 > **Legal & Strategic Advisors:** Use the architecture to identify contract boundaries, vendor responsibilities, audit rights, data-processing roles, and liability allocation.
-> 
 
 ---
 
 # 9. Implementation Checklist
 
-## 9.1 Eight questions to run this week
+## 9.1 Nine questions to run this week
 
 | # | Question | Primary owner | If the answer is no |
 | --- | --- | --- | --- |
 | **01** | Can we list every model endpoint and agent tool currently reachable, including those added recently? | CISO / engineering | Create an inventory, integrate it with runtime telemetry, and block unregistered endpoints. |
 | **02** | For the riskiest agent action, can we name the regulatory class and show the reasoning? | Compliance / legal | Create a use-case classification process before further deployment. |
 | **03** | For a production model, can we reconstruct which build produced it and who computed the reference value? | Engineering / security | Add provenance, build integrity, and reference-value ownership records. |
-| **04** | Can an agent invoke a tool that is not on an approved list? | Security architecture / platform engineering | Enforce allowlists at the gateway or runtime layer. |
+| **04** | Are agents prevented from invoking tools that are not on an approved list? | Security architecture / platform engineering | Enforce allowlists at the gateway or runtime layer. |
 | **05** | For one output last Tuesday, can we retrieve the prompt, context, output, and policy version in force? | Compliance / engineering | Bind prompt, context, output, and policy version in the evidence record. |
 | **06** | When Agent A delegates to Agent B, what carries the principal’s authorization scope? | Security architecture | Add delegation scope to identity and authorization records. |
 | **07** | Could someone outside the organization detect if last month’s logs had been altered without relying on us? | CISO / audit | Add tamper-evidence, external commitments, receipts, or independent replayability. |
-| **08** | Has anyone deliberately tried to make an agent leave its execution boundary, and is the attempt recorded? | Security / red team | Add adversarial containment tests and record the results. |
+| **08** | Has anyone deliberately tried to make an agent leave its execution boundary, with results recorded and independently gradable? | Security / red team / independent reviewer | Exercise defined threats, record outcomes and arrange competent independent grading. |
+| **09** | Can individually permitted actions combine into a prohibited outcome, and can we detect and intervene before it commits? | Product / engineering / risk | Define aggregate constraints, correlate run evidence and test detection-to-intervention timing. |
 
 ## 9.2 Design checklist
 
@@ -768,6 +805,10 @@ Build these properties in before deployment:
 5. **Evidence, not assurance** — Store the artifact that proves the control worked, not only the claim that it did.
 6. **Adversarial exercise** — Test containment by attacking it.
 7. **Evaluation-time containment** — Treat a boundary failure during testing as evidence, not as noise to be ignored.
+8. **Temporal integrity and correction** — Record validity, freshness, time-source and revocation assumptions; test whether intervention completes before an irreversible consequence.
+9. **Trajectory constraints** — Correlate runs and relevant state transitions, then check explicit aggregate limits within the stated model and coverage.
+10. **Expected evidence** — Define a versioned manifest and reconcile it with independent or separately controlled signals; investigate gaps.
+11. **Verifier basis** — Record separation, competence, known shared origins and unknowns; provide evidence supporting the assessment.
 
 ---
 
@@ -789,11 +830,15 @@ Current attestation architectures allow one organization to hold multiple roles.
 
 Evidence formats should disclose:
 
-- Who operates the verifier
-- Who owns the verifier policy
-- Who supplies reference values
-- Whether the verifier has a commercial, organizational, or control relationship with the attester
-- Whether the relying party can independently re-check the result
+- Who operates the verifier and who controls its policy
+- Who supplies and controls reference values
+- Commercial, organizational, technical and control relationships with the attester
+- The verifier's competence for the specific claim, including relevant expertise, methods, access and limitations
+- Known provenance and shared origins among apparently separate verifier or reference-value chains, including points of convergence
+- Whether the relying party can independently re-check the result and what evidence it needs
+- Unknown relationships, origins, access limitations and conflicts
+
+Independence and competence are coupled assessment criteria: separation without the ability to evaluate the claim is insufficient. Disclosures are claims supported by evidence, not proof of independence by themselves; unknown origin must not be counted as independent corroboration.
 
 ## 10.2 Delegation scope as evidence
 
@@ -855,15 +900,17 @@ Control maturity should be separately reportable as:
 - Operational
 - Adversarial-ready
 
+Under this guide's proposed criterion, adversarial-ready claims require a defined threat set, environment and success criteria, recorded outcomes and exceptions, and grading that a competent party outside the operator's control can perform. Self-run or self-graded exercises should be identified as such.
+
 ---
 
 # 11. What This Guide Does Not Claim
 
 This document is intentionally careful about its boundaries.
 
-## 11.1 It does not claim ZKBC is the only solution
+## 11.1 It does not claim zkBC is the only solution
 
-ZKBC is one architecture for achieving privacy-preserving verification. Other valid approaches may use confidential computing, signed receipts, secure enclaves, transparency logs, third-party attestation, formal methods, or conventional audit evidence.
+zkBC is one architecture for achieving privacy-preserving verification. Other valid approaches may use confidential computing, signed receipts, secure enclaves, transparency logs, third-party attestation, formal methods, or conventional audit evidence.
 
 ## 11.2 It does not claim zero-knowledge circuits are standardized
 
@@ -877,9 +924,19 @@ Attestation can show what code, model, or environment was measured. It does not 
 
 Single-hop attestation, authorization chaining, and software provenance have mature components. General compound attestation across mutually distrusting parties running non-deterministic agents remains an open area.
 
-## 11.5 It does not claim regulatory mapping is legal determination
+## 11.5 It does not claim aggregate checks or manifests provide complete coverage
+
+A trajectory check is limited by its state model, observations, ordering and threat assumptions. An expected-evidence manifest cannot establish that an entirely unobserved action occurred. Verifier disclosures support assessment but do not by themselves establish independence or competence.
+
+## 11.6 It does not claim regulatory mapping is legal determination
 
 The mappings are reasoned interpretations to support governance, implementation, and assurance planning. Qualified legal counsel should confirm binding obligations.
+
+## 11.7 Declared interests
+
+This guide is maintained by contributors who hold positions at organizations whose architectures it references as examples. In particular, the chair of the Agent Privacy & Security working group is an officer of OpenMatter, which owns the zkBC standard described in Section 8.2.
+
+That interest is declared here rather than left for a reader to discover. The chair abstains from deciding votes on the adoption of any architecture their own organization owns. Contributors are expected to declare equivalent interests on the proposals they author or review.
 
 ---
 
@@ -934,12 +991,20 @@ When sources conflict, apply this hierarchy:
 | draft-hillier-certisyn-essential-eight-verified | Individual submission on cyber hygiene verification. |
 | draft-hillier-scitt-arp | Individual submission on attestation reconciliation. |
 
+## A.5 Referenced implementation profiles
+
+Named architectures appear in this guide as examples of the evidence properties described in Section 8. They are not DAIAA standards, and their inclusion is not an endorsement.
+
+| Source | Relevance |
+| --- | --- |
+| [zkBC — Zero-Knowledge Boundary Compliance](https://github.com/hashgraph-online/cryptographic-agent-execution-wg/blob/feat/draft-spec/drafts/ZKBC-Zero-Knowledge-Boundary-Compliance.md) | OpenMatter's standard, published through HOL. The implementation profile described in Section 8.2. Working-group draft on a feature branch, not yet on the repository's default branch; confirm current status before relying on it. |
+| [HOL Cryptographic Agent Execution working group](https://github.com/hashgraph-online/cryptographic-agent-execution-wg) | The standards venue through which zkBC is published. Repository root, for the current state of the drafts. |
+
 ---
 
 # Appendix B — EU AI Act Timeline
 
 > **Note:** Use the primary Official Journal text and competent authority guidance before relying on any operational date. This table reflects the guide’s working interpretation of the amended timeline.
-> 
 
 | Obligation area | Date | Notes |
 | --- | --- | --- |
@@ -990,7 +1055,7 @@ The deferral of some high-risk obligations is not a removal of the requirement. 
 | Groth16, PLONK, STARKs as compliance standards | Not standardized as general regulatory compliance mechanisms. |
 | ZK circuits for AI governance | Not standardized. |
 | ZK virtual machines such as RISC0 or Cairo | Implementation-specific. |
-| ZKBC evidence schema | Requires definition by implementer or standards work. |
+| zkBC evidence schema | Requires definition by implementer or standards work. |
 
 ## C.4 Compliance implications of non-standardized ZK
 
@@ -1025,7 +1090,11 @@ This appendix defines what the evidence model can and cannot protect against.
 | **Reconciliation** | Detects disagreement between records that exist. |
 | **Ordering** | Strong only when anchored outside the custodian’s unilateral control. |
 | **Ground truth** | Evidence shows what records say and whether they agree; it does not prove a real-world event occurred. |
-| **Omission** | An event that produced no record may be invisible unless another independent signal implies a record should exist. |
+| **Omission** | An event that produced no record may be invisible unless an independent or separately controlled signal implies a record should exist. A versioned expected-evidence manifest and reconciliation can detect bounded gaps, not an entirely unobserved event. |
+| **Staleness and time** | Valid-looking evidence may be stale, revoked or superseded. Validity windows and freshness checks depend on trustworthy time and revocation information. |
+| **Correction window** | Detection and intervention may come too late. Test whether correction completes before the irreversible consequence, within stated timing and observation assumptions. |
+| **Common origin** | Apparently separate verifiers or reference values can share a source. Record known convergence and unknown provenance; agreement alone is not independent corroboration. |
+| **Aggregate harm** | Per-action checks can miss harmful sequences. Trajectory checks are limited to modeled states, observed signals and the tested threat set. |
 
 ---
 
@@ -1149,7 +1218,7 @@ This appendix expands the target audience into a complete role inventory and map
 
 - As a primary reference for EU AI Act timeline and obligation mapping.
 - For framework comparison across ISO 42001, NIST AI RMF, EU AI Act, DORA, ISO 27001, and SOC 2.
-- For policy development using the eight control areas and three maturity levels.
+- For policy development using the nine control areas and three maturity levels.
 - For board reporting using clear evidence and risk language.
 - For cross-border compliance planning where DORA, EU AI Act, privacy, and sector rules intersect.
 
@@ -1157,7 +1226,7 @@ This appendix expands the target audience into a complete role inventory and map
 
 - Section 5 — Regulatory and Audit Obligation Map
 - Section 6 — Evidence Maturity Model
-- Section 7 — The Eight Control Areas
+- Section 7 — The Nine Control Areas
 - Appendix B — EU AI Act Timeline
 - Appendix E — Global Jurisdiction Map
 
@@ -1186,7 +1255,7 @@ This appendix expands the target audience into a complete role inventory and map
 
 **Key sections**
 
-- Section 7 — The Eight Control Areas
+- Section 7 — The Nine Control Areas
 - Section 8 — Reference Architecture
 - Section 9 — Implementation Checklist
 - Appendix C — Technical Standards and Cryptography Background
@@ -1217,7 +1286,7 @@ This appendix expands the target audience into a complete role inventory and map
 
 - Section 4 — The Compliance Problem
 - Section 6 — Evidence Maturity Model
-- Section 7 — The Eight Control Areas
+- Section 7 — The Nine Control Areas
 - Section 9 — Implementation Checklist
 - Appendix A — Authoritative Sources
 - Appendix D — Adversary Model
