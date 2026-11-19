@@ -23,15 +23,18 @@ The **Agent Privacy & Security** working group covers privacy, security, and acc
 | Raise a topic or report a problem | Open an [issue](https://github.com/loukerner/DAIAA/issues) |
 | Propose a standard | Read the [AAIP process](standards/aaip-process.md) and submit using the [template](standards/templates/aaip-template.md) |
 | Suggest a change to a document | Open a pull request against it |
+| Submit a written review of a document | Add a file to [`feedback/`](feedback/) by pull request — see [how to submit a review](feedback/README.md#how-to-submit-a-review) |
 
 Comments are welcome from anyone with a GitHub account — you do not need to be a repository collaborator.
 
 ## Repository layout
 
 ```
-docs/        Reference documentation, including the compliance guide
-standards/   The AAIP standards-proposal track: process, template, index
-LICENSE      Apache-2.0
+docs/           Reference documentation, including the compliance guide
+standards/      The AAIP standards-proposal track: process, template, index
+consultations/  Responses to regulator calls for evidence and consultations
+feedback/       Written reviews of the documents in this repository
+LICENSE         Apache-2.0
 ```
 
 ## What this repository is not
