@@ -1,51 +1,45 @@
-# DAIAA
-The repository for the Decentralized AI Agent Alliance
-A practical reference for regulatory compliance, security implementation, audit assurance, and legal strategy in autonomous AI systems.
+# DAIAA — Decentralized AI Agent Alliance
 
-> [!NOTE]
-This README is intended as the repository landing page. The full guide should live as a separate Markdown document in the repo, for example `docs/2026-agent-compliance-implementation-guide.md`.
-> 
+An industry alliance for people building, deploying, and governing autonomous AI agents.
 
-## Overview
+This repository holds the alliance's open work product: reference documentation, standards proposals, and consultation responses. Everything here is public, openly licensed, and open to comment.
 
-The 2026 Agent Compliance & Implementation Guide maps agentic AI governance obligations to practical evidence controls for autonomous systems that retrieve data, invoke tools, delegate work, and operate across regulated environments.
+## Projects
 
-The guide is written for compliance officers, CISOs, developers, auditors, legal teams, procurement teams, and strategic advisors preparing for EU AI Act, DORA, ISO 42001, ISO 27001, SOC 2, privacy, and sector-specific obligations.
+| Project | What it is | Status |
+| --- | --- | --- |
+| **[Agent Compliance & Implementation Guide](docs/)** | Maps agentic AI governance obligations — EU AI Act, DORA, ISO 42001, ISO 27001, SOC 2, privacy and sector rules — to eight evidence control areas, plus a reference architecture for verifiable agent governance. | Published · open for review |
+| **[AAIP — Autonomous Agent Improvement Proposals](standards/)** | The alliance's standards-proposal track. Narrow, ratifiable proposals on how agent systems produce, carry, and verify evidence. | Process in draft · AAIP-001 and AAIP-002 reserved |
 
-It focuses on a core requirement for agentic AI systems: compliance evidence should be generated automatically, bound to the policy in force at the time, protected against alteration, and independently checkable by a party other than the one whose conduct is being assessed.
+## Working groups
 
-## Table of contents
+The **Agent Privacy & Security** working group covers privacy, security, and accountability as agents use tools, access data, and act across organisations. It meets fortnightly and its output lands here.
 
-1. Executive Summary
-2. Who Should Use This Guide
-3. Core Concepts
-4. The Compliance Problem
-5. Regulatory and Audit Obligation Map
-6. Evidence Maturity Model
-7. The Eight Control Areas
-    - 01 — AI inventory and shadow-AI discovery
-    - 02 — Use-case classification and risk assessment
-    - 03 — Model and data provenance
-    - 04 — Sanctioned-application control
-    - 05 — Prompt and output governance
-    - 06 — Identity and access control for AI
-    - 07 — Logging, telemetry and auditability
-    - 08 — Incident, drift and escalation response
-8. Reference Architecture for Verifiable Agent Governance
-9. Implementation Checklist
-10. Standards Proposals
-11. What This Guide Does Not Claim
-12. Appendix A — Authoritative Sources
-13. Appendix B — EU AI Act Timeline
-14. Appendix C — Technical Standards and Cryptography Background
-15. Appendix D — Adversary Model
-16. Appendix E — Global Jurisdiction Map
-17. Appendix F — Role Inventory and Reader Map
+## How to take part
+
+| You want to | Do this |
+| --- | --- |
+| Comment on a document | Open the relevant [pull request](https://github.com/loukerner/DAIAA/pulls) and leave inline comments on the lines you're responding to |
+| Raise a topic or report a problem | Open an [issue](https://github.com/loukerner/DAIAA/issues) |
+| Propose a standard | Read the [AAIP process](standards/aaip-process.md) and submit using the [template](standards/templates/aaip-template.md) |
+| Suggest a change to a document | Open a pull request against it |
+
+Comments are welcome from anyone with a GitHub account — you do not need to be a repository collaborator.
+
+## Repository layout
 
 ```
+docs/        Reference documentation, including the compliance guide
+standards/   The AAIP standards-proposal track: process, template, index
+LICENSE      Apache-2.0
+```
+
+## What this repository is not
+
+- **Not legal advice.** The documents here are structured technical and compliance references. Where they conflict with primary legislation, official regulatory guidance, or binding standards, those primary sources control.
+- **Not a conformance or certification scheme.** Nothing here certifies a product, an organisation, or a deployment. Verification is not proof of compliance.
+- **Not a vendor specification.** Implementation patterns are described as examples. Where a named architecture originates with a specific organisation, that attribution belongs with it, and an AAIP is ratified by DAIAA alone — it does not bind any other body an alliance member also participates in.
 
 ## License
 
-This work is intended to be open source documentation.
-
-See the license page for reuse rights, attribution requirements, and warranty disclaimer.
+Apache-2.0. See [LICENSE](LICENSE) for reuse rights, attribution requirements, and the warranty disclaimer.
